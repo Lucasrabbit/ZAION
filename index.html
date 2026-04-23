@@ -340,11 +340,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 /* ═══════════════════════════════════════════
    VISITOR COUNTER (real-time)
 ═══════════════════════════════════════════ */
-#visitors { background: var(--sky-3); padding: 56px 24px; }
-.visitors-inner { max-width:480px; margin:0 auto; text-align:center; }
-.visitors-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; color:var(--blue-dark); margin-bottom:8px; }
-.visitors-sub { font-size:.78rem; color:var(--text-light); letter-spacing:.04em; margin-bottom:24px; }
-.visitors-grid { display:flex; gap:16px; justify-content:center; }
+#Visitors { background: var(--sky-3); padding: 56px 24px; }
+.Visitors-inner { max-width:480px; margin:0 auto; text-align:center; }
+.Visitors-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; color:var(--blue-dark); margin-bottom:8px; }
+.Visitors-sub { font-size:.78rem; color:var(--text-light); letter-spacing:.04em; margin-bottom:24px; }
+.Visitors-grid { display:flex; gap:16px; justify-content:center; }
 .visitor-stat { flex:1; max-width:160px; background:var(--white); border-radius:20px; padding:22px 16px; box-shadow:var(--shadow); border:1px solid rgba(91,159,214,.10); position:relative; overflow:hidden; }
 .visitor-stat::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--blue),transparent); animation:cdShimmer 3s ease-in-out infinite; }
 .visitor-num { font-family:'Cormorant Garamond',serif; font-size:2.6rem; font-weight:600; color:var(--blue-dark); display:block; line-height:1; margin-bottom:6px; }
@@ -690,12 +690,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
   <p class="gallery-note reveal">As fotos do chá de bebê serão adicionadas aqui<br>como uma lembrança especial desse dia. 🌸</p>
 </section>
 
-<!-- ══════════════════════════════════════ VISITORS ══ -->
-<section id="visitors">
-  <div class="visitors-inner">
-    <h2 class="visitors-title reveal">Quem já passou por aqui 💙</h2>
-    <p class="visitors-sub reveal">cada visita é um abraço para Zaion <span class="visitor-live-dot"></span></p>
-    <div class="visitors-grid reveal">
+<!-- ══════════════════════════════════════ Visitors ══ -->
+<section id="Visitors">
+  <div class="Visitors-inner">
+    <h2 class="Visitors-title reveal">Quem já passou por aqui 💙</h2>
+    <p class="Visitors-sub reveal">cada visita é um abraço para Zaion <span class="visitor-live-dot"></span></p>
+    <div class="Visitors-grid reveal">
       <div class="visitor-stat">
         <span class="visitor-num" id="visitorCount">–</span>
         <span class="visitor-label">visitantes</span>
@@ -878,7 +878,7 @@ renderMsgs(localMsgs);
 
 /* ─────────────────────────────────────────────────
    TIME CAPSULE — SUPABASE WRITE
-   Table: future_messages
+   Table: capsulas
    Columns: id, name, message, open_year, created_at
 ───────────────────────────────────────────────── */
 async function sendCapsule() {
@@ -891,7 +891,7 @@ async function sendCapsule() {
   btn.disabled = true;
   btn.textContent = 'Guardando… ✨';
 
-  const { error } = await db.from('future_messages').insert([{ name, message, open_year }]);
+  const { error } = await db.from('capsulas').insert([{ name, message, open_year }]);
 
   btn.disabled = false;
   btn.textContent = 'Guardar no tempo ✨';
@@ -914,7 +914,7 @@ async function sendCapsule() {
 
 /* ─────────────────────────────────────────────────
    VISITOR COUNTER — SUPABASE REAL-TIME
-   Table: visitors
+   Table: Visitors
    Columns: id (bigint, auto), created_at (timestamptz, default now())
    RLS policy: allow INSERT for anon, allow SELECT for anon
 
@@ -922,18 +922,18 @@ async function sendCapsule() {
 ───────────────────────────────────────────────── */
 async function registerVisit() {
   // Insert a new visit row (fire & forget)
-  await db.from('visitors').insert([{ created_at: new Date().toISOString() }]);
+  await db.from('Visitors').insert([{ created_at: new Date().toISOString() }]);
 }
 
 async function fetchStats() {
-  // Count visitors
+  // Count Visitors
   const { count: visitCount } = await db
-    .from('visitors')
+    .from('Visitors')
     .select('*', { count: 'exact', head: true });
 
   // Count capsule messages
   const { count: msgCount } = await db
-    .from('future_messages')
+    .from('capsulas')
     .select('*', { count: 'exact', head: true });
 
   const vcEl = document.getElementById('visitorCount');
@@ -954,22 +954,22 @@ function animCount(el, target) {
   }, 40);
 }
 
-// Subscribe to real-time changes on visitors table
+// Subscribe to real-time changes on Visitors table
 function subscribeRealtime() {
-  db.channel('public:visitors')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'visitors' }, () => {
+  db.channel('public:Visitors')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Visitors' }, () => {
       fetchStats();
     })
     .subscribe();
 
-  db.channel('public:future_messages')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'future_messages' }, () => {
+  db.channel('public:capsulas')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'capsulas' }, () => {
       fetchStats();
     })
     .subscribe();
 }
 
-// Init when visitors section scrolls into view
+// Init when Visitors section scrolls into view
 const vIo = new IntersectionObserver(entries => {
   entries.forEach(en => {
     if (en.isIntersecting) {
@@ -978,7 +978,7 @@ const vIo = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.3 });
-const vSec = document.getElementById('visitors');
+const vSec = document.getElementById('Visitors');
 if (vSec) vIo.observe(vSec);
 
 // Register visit & start realtime on page load
