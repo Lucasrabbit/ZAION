@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Willkommen, Zaion 💙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ─── TOKENS ─────────────────────────────── */
+  :root {
+    --sky-1: #daeeff;
+    --sky-2: #eef6ff;
+    --sky-3: #f7fbff;
+    --blue:  #5b9fd6;
+    --blue-dark: #2d6fa3;
+    --gold:  #c9a84c;
+    --gold-light: #f0d98a;
+    --cream: #fffdf7;
+    --text:  #2a3a4a;
+    --text-light: #5a7080;
+    --white: #ffffff;
+    --radius: 20px;
+    --shadow: 0 8px 40px rgba(45,111,163,.10);
+  }
+
+  /* ─── RESET ──────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── UTILITY ────────────────────────────── */
+  .section { padding: 72px 24px; max-width: 480px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--text-light);
+    font-size: .875rem;
+    margin-bottom: 36px;
+    font-weight: 300;
+    letter-spacing: .03em;
+  }
+  .gold-line {
+    display: block;
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    margin: 12px auto 32px;
+    border-radius: 2px;
+  }
+
+  /* ─── FADE-IN ─────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ════════════════════════════════════════════
+     1. HERO
+  ════════════════════════════════════════════ */
+  #hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #b8ddf5 0%, #d6eefb 35%, #eef7ff 65%, #f7fbff 100%);
+    padding: 40px 24px;
+  }
+
+  /* ── Sky layers ── */
+  .sky-layer {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+
+  /* Stars */
+  .stars {
+    position: absolute; inset: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite;
+    opacity: 0;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0; transform: scale(.6); }
+    50%      { opacity: .8; transform: scale(1); }
+  }
+
+  /* Clouds */
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,.82);
+    border-radius: 50px;
+    filter: blur(2px);
+    animation: drift var(--spd, 22s) linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+  }
+  @keyframes drift {
+    from { transform: translateX(-160px); }
+    to   { transform: translateX(calc(100vw + 160px)); }
+  }
+
+  /* Dotted flight path */
+  .flight-path {
+    position: absolute;
+    bottom: 18%;
+    left: 0; right: 0;
+    height: 60px;
+    overflow: visible;
+  }
+  .flight-path svg { width: 100%; height: 100%; overflow: visible; }
+
+  /* Airplane */
+  .plane-wrap {
+    position: absolute;
+    bottom: 20%;
+    animation: fly 16s linear infinite;
+    font-size: 1.6rem;
+    filter: drop-shadow(0 4px 8px rgba(45,111,163,.3));
+  }
+  @keyframes fly {
+    0%   { left: -60px;  transform: rotate(-6deg); }
+    45%  { transform: rotate(-2deg); }
+    50%  { transform: rotate(-2deg); }
+    100% { left: calc(100% + 60px); transform: rotate(-6deg); }
+  }
+
+  /* Hero text */
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.55);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 40px;
+    padding: 6px 20px;
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--blue-dark);
+    font-weight: 500;
+    margin-bottom: 24px;
+    animation: fadeUp .9s .2s both;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 11vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--blue-dark);
+    animation: fadeUp .9s .35s both;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    margin-top: 16px;
+    font-size: 1.05rem;
+    color: var(--text-light);
+    font-weight: 300;
+    letter-spacing: .04em;
+    animation: fadeUp .9s .5s both;
+  }
+  .hero-date {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(201,168,76,.35);
+    border-radius: 40px;
+    padding: 8px 22px;
+    font-size: .85rem;
+    color: var(--blue-dark);
+    font-weight: 400;
+    animation: fadeUp .9s .65s both;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: .5;
+    animation: fadeUp 1s 1.2s both;
+  }
+  .hero-scroll span { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--blue-dark); }
+  .scroll-arrow { width: 20px; height: 20px; border-right: 1.5px solid var(--blue-dark); border-bottom: 1.5px solid var(--blue-dark); transform: rotate(45deg); animation: bounce 1.5s ease-in-out infinite; }
+  @keyframes bounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(4px); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+<!-- ══════════════════════════════════════
+     NOVO: BEFORE ARRIVAL
+══════════════════════════════════════ -->
+<section id="before" class="section" style="background:#f7fbff;">
+  <h2 class="section-title reveal">Antes de chegar</h2>
+  <span class="gold-line reveal"></span>
+
+  <p class="section-sub reveal" style="max-width:320px;margin:0 auto;line-height:1.8;">
+    💙 Antes mesmo de chegar…<br>
+    já tenho uma história sendo escrita.<br><br>
+    Já tenho nome, família, cultura…<br>
+    e pessoas incríveis esperando por mim.
+  </p>
+</section>
+
+  /* ════════════════════════════════════════════
+     2. ABOUT
+  ════════════════════════════════════════════ */
+  #about { background: var(--white); }
+  .about-card {
+    background: linear-gradient(135deg, #eef6ff 0%, #f7fbff 100%);
+    border: 1px solid rgba(91,159,214,.18);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    position: relative;
+    box-shadow: var(--shadow);
+  }
+  .about-card::before {
+    content: '💙';
+    position: absolute;
+    top: -18px; left: 50%; transform: translateX(-50%);
+    font-size: 2rem;
+    filter: drop-shadow(0 4px 8px rgba(91,159,214,.4));
+  }
+  .about-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .about-text {
+    font-size: .95rem;
+    line-height: 1.75;
+    color: var(--text);
+    font-weight: 300;
+  }
+  .about-text strong { font-weight: 500; color: var(--blue-dark); }
+  .meaning-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: #3a2800;
+    border-radius: 30px;
+    padding: 5px 16px;
+    font-size: .78rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+    margin-top: 16px;
+  }
+
+<section id="family" class="section">
+  <h2 class="section-title reveal">Minha família</h2>
+  <span class="gold-line reveal"></span>
+
+  <div class="about-card reveal">
+    <p class="about-text" style="text-align:center;">
+      👨‍👩‍👦<br><br>
+      Fui sonhado, esperado e já sou muito amado.<br><br>
+      Papai e mamãe escolheram meu nome com carinho,<br>
+      e mal podem esperar para me conhecer 💙
+    </p>
+  </div>
+</section>
+
+  /* ════════════════════════════════════════════
+     3. CURIOSITIES
+  ════════════════════════════════════════════ */
+  #curiosities { background: var(--sky-3); }
+  .curio-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .curio-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    box-shadow: 0 2px 20px rgba(45,111,163,.07);
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(180deg, var(--gold-light), var(--gold)) 1;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .curio-card:active { transform: scale(.98); }
+  .curio-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .curio-text {
+    font-size: .875rem;
+    line-height: 1.6;
+    color: var(--text);
+    font-weight: 300;
+  }
+  .curio-text strong { font-weight: 500; color: var(--blue-dark); display: block; margin-bottom: 2px; }
+
+  /* ════════════════════════════════════════════
+     4. CULTURAL ROOTS
+  ════════════════════════════════════════════ */
+  #roots { background: var(--white); }
+  .roots-map {
+    background: linear-gradient(160deg, #eef6ff, #fff8e8);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .roots-map::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(91,159,214,.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .roots-cities {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 32px;
+  }
+  .city-node {
+    text-align: center;
+    flex: 1;
+  }
+  .city-icon {
+    width: 64px; height: 64px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 10px;
+    box-shadow: 0 4px 20px rgba(45,111,163,.15);
+    border: 2px solid rgba(201,168,76,.3);
+  }
+  .city-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+  }
+  .city-state {
+    font-size: .72rem;
+    color: var(--text-light);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .route-line {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 0 8px;
+    margin-bottom: 28px;
+  }
+  .route-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .route-dot:nth-child(2) { animation-delay: .3s; }
+  .route-dot:nth-child(3) { animation-delay: .6s; }
+  .route-dot:nth-child(4) { animation-delay: .9s; }
+  .route-dot:nth-child(5) { animation-delay: 1.2s; }
+  @keyframes pulse { 0%,100%{opacity:.2;} 50%{opacity:1;} }
+
+  .culture-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .culture-tag {
+    background: rgba(255,255,255,.85);
+    border: 1px solid rgba(201,168,76,.3);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: .78rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 400;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ════════════════════════════════════════════
+     5. INTERACTIVE — POLL + MESSAGES
+  ════════════════════════════════════════════ */
+  #interactive { background: var(--sky-3); }
+  .tabs {
+    display: flex;
+    background: var(--white);
+    border-radius: 40px;
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 12px rgba(45,111,163,.1);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    border: none;
+    background: transparent;
+    border-radius: 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all .25s;
+  }
+  .tab-btn.active {
+    background: var(--blue-dark);
+    color: var(--white);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Poll */
+  .poll-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.35;
+  }
+  .poll-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .poll-opt {
+    background: var(--white);
+    border: 1.5px solid rgba(91,159,214,.25);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .poll-opt:active { transform: scale(.98); }
+  .poll-opt.selected { border-color: var(--blue); background: linear-gradient(135deg, #eef6ff, #f7fbff); }
+  .poll-opt-emoji { font-size: 1.6rem; flex-shrink: 0; }
+  .poll-opt-label { font-size: .9rem; font-weight: 500; color: var(--text); }
+  .poll-bar-wrap {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    width: 100%;
+    background: rgba(91,159,214,.1);
+  }
+  .poll-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--gold));
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+  .poll-pct {
+    margin-left: auto;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--blue);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .poll-voted .poll-pct { opacity: 1; }
+  .poll-result-msg {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--gold);
+    min-height: 32px;
+    transition: opacity .4s;
+  }
+
+  /* Messages */
+  .msg-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg-name, .msg-text {
+    width: 100%;
+    border: 1.5px solid rgba(91,159,214,.25);
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .875rem;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    resize: none;
+    transition: border-color .2s;
+  }
+  .msg-name:focus, .msg-text:focus { border-color: var(--blue); }
+  .msg-text { min-height: 100px; }
+  .msg-send {
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    color: var(--white);
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+    letter-spacing: .02em;
+  }
+  .msg-send:active { transform: scale(.97); }
+  .msg-list {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg-bubble {
+    background: var(--white);
+    border-radius: 16px 16px 16px 4px;
+    padding: 16px 18px;
+    box-shadow: 0 2px 14px rgba(45,111,163,.08);
+    animation: popIn .35s cubic-bezier(.4,0,.2,1) both;
+  }
+  @keyframes popIn { from{opacity:0;transform:scale(.9) translateY(8px);} to{opacity:1;transform:none;} }
+  .msg-bubble-name {
+    font-size: .72rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .msg-bubble-text {
+    font-size: .875rem;
+    line-height: 1.6;
+    color: var(--text);
+    font-weight: 300;
+  }
+  .msg-empty {
+    text-align: center;
+    color: var(--text-light);
+    font-size: .85rem;
+    font-style: italic;
+    padding: 20px 0;
+  }
+
+  /* ════════════════════════════════════════════
+     6. GALLERY
+  ════════════════════════════════════════════ */
+  #gallery { background: var(--white); }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .gallery-placeholder {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #daeeff, #eef6ff);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 1.4rem;
+    color: rgba(91,159,214,.4);
+  }
+  .gallery-placeholder span {
+    font-size: .58rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: rgba(91,159,214,.5);
+    font-weight: 500;
+  }
+  .gallery-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: .8rem;
+    color: var(--text-light);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════════
+     7. CLOSING
+  ════════════════════════════════════════════ */
+  #closing {
+    background: linear-gradient(170deg, #1a4a72 0%, #2d6fa3 50%, #3a8fc7 100%);
+    padding: 80px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #closing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .closing-stars {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .closing-star {
+    position: absolute;
+    background: var(--gold-light);
+    border-radius: 50%;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite;
+    opacity: 0;
+  }
+  .closing-inner { position: relative; z-index: 1; max-width: 380px; margin: 0 auto; }
+  .closing-heart {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 24px;
+    animation: heartbeat 2s ease-in-out infinite;
+    filter: drop-shadow(0 4px 16px rgba(91,159,214,.6));
+  }
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    14%     { transform: scale(1.18); }
+    28%     { transform: scale(1); }
+    42%     { transform: scale(1.1); }
+    56%     { transform: scale(1); }
+  }
+  .closing-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+  .closing-sig {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--gold-light);
+    margin-top: 28px;
+  }
+  .closing-divider {
+    width: 48px;
+    height: 1px;
+    background: rgba(255,255,255,.3);
+    margin: 20px auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     1. HERO
+══════════════════════════════════════ -->
+<section id="hero">
+  <!-- Stars -->
+  <div class="stars" id="heroStars"></div>
+
+  <!-- Clouds -->
+  <div class="sky-layer" id="heroClouds"></div>
+
+  <!-- Plane -->
+  <div class="plane-wrap">✈️</div>
+
+  <!-- Text -->
+  <div class="hero-badge">✨ Bem-vindo ao mundo, Zaion</div>
+
+  <h1 class="hero-title">
+    Willkommen,<br>
+    <em>Zaion</em> 💙
+  </h1>
+
+  <p class="hero-sub">Uma nova jornada está começando</p>
+
+  <div class="hero-date">
+    📅 &nbsp; Chegada prevista: <strong>23–24 de junho, 2026</strong>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     2. ABOUT
+══════════════════════════════════════ -->
+<section id="about" class="section">
+  <h2 class="section-title reveal">Sobre Zaion</h2>
+  <span class="gold-line reveal"></span>
+
+  <div class="about-card reveal">
+    <p class="about-name">Hallo, wie geht's?<br>Ich heiße Zaion 💙</p>
+    <p class="about-text">
+      Meu nome é uma variação do hebraico <strong>"Zion"</strong>, que significa
+      <strong>Terra Prometida</strong>.<br><br>
+      Eu represento <strong>esperança</strong>, <strong>paz</strong> e um mundo melhor.
+    </p>
+    <div style="text-align:center; margin-top:20px;">
+      <span class="meaning-pill">✨ &nbsp;Terra Prometida &nbsp;·&nbsp; Esperança &nbsp;·&nbsp; Paz</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     3. CURIOSIDADES
+══════════════════════════════════════ -->
+<section id="curiosities" class="section">
+  <h2 class="section-title reveal">Curiosidades</h2>
+  <p class="section-sub reveal">Coisinhas que você ainda não sabe sobre mim</p>
+  <span class="gold-line reveal"></span>
+
+  <div class="curio-grid">
+    <div class="curio-card reveal">
+      <div class="curio-icon">🎬</div>
+      <p class="curio-text"><strong>Meu nome em Matrix</strong>
+        Em Matrix, Zion é o último refúgio da humanidade — um lugar de esperança no fim do mundo.</p>
+    </div>
+    <div class="curio-card reveal">
+      <div class="curio-icon">💕</div>
+      <p class="curio-text"><strong>Escolhido com amor</strong>
+        Meu nome foi escolhido pelo papai e pela mamãe com muito carinho.</p>
+    </div>
+    <div class="curio-card reveal">
+      <div class="curio-icon">🗺️</div>
+      <p class="curio-text"><strong>Minha primeira rota</strong>
+        Natal – RN → Nova Petrópolis – RS. Uma jornada de 3.200 km de coração a coração.</p>
+    </div>
+    <div class="curio-card reveal">
+      <div class="curio-icon">🎶</div>
+      <p class="curio-text"><strong>Música no sangue</strong>
+        Posso amar tanto a banda gaúcha quanto o rastapé nordestino. As duas batidas já correm nas minhas veias.</p>
+    </div>
+    <div class="curio-card reveal">
+      <div class="curio-icon">🎉</div>
+      <p class="curio-text"><strong>Chegada no São João</strong>
+        Minha chegada está prevista para 23–24 de junho — no coração do São João! Quadrilha na maternidade? 🤔</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     4. RAÍZES CULTURAIS
+══════════════════════════════════════ -->
+<section id="roots" class="section">
+  <h2 class="section-title reveal">Raízes Culturais</h2>
+  <p class="section-sub reveal">De onde eu venho, carrego o melhor dos dois mundos</p>
+  <span class="gold-line reveal"></span>
+
+  <div class="roots-map reveal">
+    <div class="roots-cities">
+      <div class="city-node">
+        <div class="city-icon">🌊</div>
+        <div class="city-name">Natal</div>
+        <div class="city-state">RN · Brasil</div>
+      </div>
+
+      <div class="route-line">
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+      </div>
+
+      <div style="font-size:1.4rem;margin-bottom:28px;flex-shrink:0;">✈️</div>
+
+      <div class="route-line">
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+        <div class="route-dot"></div>
+      </div>
+
+      <div class="city-node">
+        <div class="city-icon">🏔️</div>
+        <div class="city-name">Nova Petrópolis</div>
+        <div class="city-state">RS · Brasil</div>
+      </div>
+    </div>
+
+    <div class="culture-tags">
+      <span class="culture-tag">🇩🇪 Herança alemã</span>
+      <span class="culture-tag">🎭 Festa Junina</span>
+      <span class="culture-tag">🥩 Churrasco gaúcho</span>
+      <span class="culture-tag">🦞 Lagosta nordestina</span>
+      <span class="culture-tag">🍺 Oktoberfest</span>
+      <span class="culture-tag">🎸 Forró & Xote</span>
+      <span class="culture-tag">🌅 Sol de Natal</span>
+      <span class="culture-tag">❄️ Serra Gaúcha</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     5. INTERATIVO
+══════════════════════════════════════ -->
+<section id="interactive" class="section">
+  <h2 class="section-title reveal">Participe!</h2>
+  <p class="section-sub reveal">Deixe sua marca nessa jornada</p>
+  <span class="gold-line reveal"></span>
+
+  <div class="reveal">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('poll')">🗳️ Votação</button>
+      <button class="tab-btn" onclick="switchTab('msg')">💌 Mensagem</button>
+    </div>
+
+    <!-- POLL -->
+    <div class="tab-panel active" id="tab-poll">
+      <p class="poll-question">Com quem Zaion vai parecer mais?</p>
+      <div class="poll-opts" id="pollOpts">
+        <div class="poll-opt" onclick="vote(0)" data-idx="0">
+          <span class="poll-opt-emoji">👩</span>
+          <span class="poll-opt-label">Com a Mamãe</span>
+          <span class="poll-pct" id="pct0">0%</span>
+          <div class="poll-bar-wrap"><div class="poll-bar" id="bar0" style="width:0%"></div></div>
+        </div>
+        <div class="poll-opt" onclick="vote(1)" data-idx="1">
+          <span class="poll-opt-emoji">👨</span>
+          <span class="poll-opt-label">Com o Papai</span>
+          <span class="poll-pct" id="pct1">0%</span>
+          <div class="poll-bar-wrap"><div class="poll-bar" id="bar1" style="width:0%"></div></div>
+        </div>
+        <div class="poll-opt" onclick="vote(2)" data-idx="2">
+          <span class="poll-opt-emoji">🎲</span>
+          <span class="poll-opt-label">Uma surpresa!</span>
+          <span class="poll-pct" id="pct2">0%</span>
+          <div class="poll-bar-wrap"><div class="poll-bar" id="bar2" style="width:0%"></div></div>
+        </div>
+      </div>
+      <p class="poll-result-msg" id="pollMsg"></p>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="tab-panel" id="tab-msg">
+      <div class="msg-input-wrap">
+        <input class="msg-name" id="msgName" type="text" placeholder="Seu nome 😊" maxlength="40" />
+        <textarea class="msg-text" id="msgText" placeholder="Deixe uma mensagem carinhosa para Zaion… 💙" maxlength="280"></textarea>
+        <button class="msg-send" onclick="sendMsg()">Enviar mensagem 💌</button>
+      </div>
+      <div class="msg-list" id="msgList">
+        <p class="msg-empty" id="msgEmpty">As mensagens carinhosas vão aparecer aqui ✨</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     6. GALERIA
+══════════════════════════════════════ -->
+<section id="gallery" class="section">
+  <h2 class="section-title reveal">Galeria</h2>
+  <p class="section-sub reveal">Momentos do chá de bebê</p>
+  <span class="gold-line reveal"></span>
+
+  <div class="gallery-grid reveal">
+    <div class="gallery-placeholder">📸<span>em breve</span></div>
+    <div class="gallery-placeholder">📸<span>em breve</span></div>
+    <div class="gallery-placeholder">📸<span>em breve</span></div>
+    <div class="gallery-placeholder">📸<span>em breve</span></div>
+    <div class="gallery-placeholder">📸<span>em breve</span></div>
+    <div class="gallery-placeholder">📸<span>em breve</span></div>
+  </div>
+  <p class="gallery-note reveal">
+<div style="text-align:center;margin-top:24px;">
+  <a href="https://drive.google.com/drive/folders/1euNsm5YU3DYoN34ijIIhMeA_4CS5HTmL?usp=sharing" target="_blank" style="
+    display:inline-block;
+    background: linear-gradient(135deg, #5b9fd6, #2d6fa3);
+    color:#fff;
+    padding:14px 24px;
+    border-radius:30px;
+    text-decoration:none;
+    font-size:.9rem;
+    font-weight:500;
+    box-shadow:0 6px 20px rgba(45,111,163,.2);
+  ">
+    📸 Enviar fotos 💙
+  </a>
+</div>
+    As fotos do chá de bebê serão adicionadas aqui<br>como uma lembrança especial desse dia. 🌸
+  </p>
+</section>
+
+<section class="section" style="background:#eef6ff;">
+  <h2 class="section-title reveal">Uma mensagem para o futuro</h2>
+  <span class="gold-line reveal"></span>
+
+  <p class="section-sub reveal" style="max-width:340px;margin:0 auto;line-height:1.8;">
+    💌 Deixe um recado para mim…<br><br>
+    Um dia eu vou ler tudo isso<br>
+    e lembrar o quanto já era amado 💙
+  </p>
+
+  <div style="text-align:center;margin-top:24px;">
+    <a href="https://forms.gle/tyy7wYg3QjyVDqxt7" target="_blank" style="
+      display:inline-block;
+      background: linear-gradient(135deg, #c9a84c, #f0d98a);
+      color:#3a2800;
+      padding:14px 24px;
+      border-radius:30px;
+      text-decoration:none;
+      font-size:.9rem;
+      font-weight:500;
+    ">
+      💌 Deixar mensagem
+    </a>
+  </div>
+</section>
+
+<section class="section" style="text-align:center;">
+  <h2 class="section-title reveal">Contagem regressiva</h2>
+  <span class="gold-line reveal"></span>
+
+  <p id="countdown" style="font-size:1.4rem; color:#2d6fa3; font-weight:500;"></p>
+</section>
+
+<!-- ══════════════════════════════════════
+     7. CLOSING
+══════════════════════════════════════ -->
+<section id="closing">
+  <div class="closing-stars" id="closingStars"></div>
+  <div class="closing-inner reveal">
+    <span class="closing-heart">💙</span>
+    <h2 class="closing-title">
+      Obrigado por fazer parte desse momento tão especial
+    </h2>
+    <div class="closing-divider"></div>
+    <p style="color:rgba(255,255,255,.75); font-size:.875rem; line-height:1.7; font-weight:300;">
+      Cada sorriso seu, cada palavra carinhosa,<br>
+      cada abraço — tudo ficará guardado<br>
+      no coração de Zaion para sempre.
+    </p>
+    <p class="closing-sig">Com carinho, Zaion 💙</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ── STARS generator ── */
+function makeStars(containerId, n, small) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('div');
+    const sz = small ? Math.random()*3+1 : Math.random()*4+1.5;
+    s.className = small ? 'closing-star' : 'star';
+    s.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      --dur:${(Math.random()*3+2).toFixed(1)}s;
+      animation-delay:${(Math.random()*4).toFixed(1)}s;
+    `;
+    c.appendChild(s);
+  }
+}
+makeStars('heroStars', 30, false);
+makeStars('closingStars', 25, true);
+
+/* ── CLOUDS generator ── */
+(function(){
+  const c = document.getElementById('heroClouds');
+  const data = [
+    { w:90,  h:28, top:14, delay:0,   spd:28 },
+    { w:130, h:36, top:22, delay:-8,  spd:35 },
+    { w:70,  h:20, top:35, delay:-4,  spd:22 },
+    { w:110, h:32, top:50, delay:-14, spd:42 },
+    { w:80,  h:24, top:62, delay:-2,  spd:30 },
+  ];
+  data.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cloud';
+    el.style.cssText = `
+      width:${d.w}px; height:${d.h}px;
+      top:${d.top}%;
+      left:-${d.w+20}px;
+      --spd:${d.spd}s;
+      animation-delay:${d.delay}s;
+    `;
+    const bw = d.w*.55, bh = d.h*1.4;
+    el.style.setProperty('--bw', bw+'px');
+    el.style.setProperty('--bh', bh+'px');
+    // pseudo-cloud bumps via box-shadow
+    el.style.boxShadow = `
+      ${d.w*.25}px -${d.h*.4}px 0 ${d.h*.2}px rgba(255,255,255,.82),
+      ${d.w*.55}px -${d.h*.2}px 0 ${d.h*.1}px rgba(255,255,255,.82)
+    `;
+    c.appendChild(el);
+  });
+})();
+
+/* ── SCROLL REVEAL ── */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      // stagger siblings in same section
+      const siblings = [...e.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+      const idx = siblings.indexOf(e.target);
+      setTimeout(() => {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }, idx * 80);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => io.observe(el));
+
+/* ── TABS ── */
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+/* ── POLL ── */
+let votes = [0, 0, 0];
+let voted = false;
+const msgs = [
+  'Mamãe vai ficar orgulhosa! 👩💙',
+  'O papai vai ter um mini-eu! 👨💙',
+  'Vai ser uma surpresa maravilhosa! 🎲💙'
+];
+function vote(idx) {
+  if (voted) return;
+  voted = true;
+  votes[idx]++;
+  const total = votes.reduce((a, b) => a + b, 0);
+  const opts = document.querySelectorAll('.poll-opt');
+  opts.forEach((o, i) => {
+    const pct = Math.round(votes[i] / total * 100);
+    document.getElementById('bar' + i).style.width = pct + '%';
+    document.getElementById('pct' + i).textContent = pct + '%';
+    o.classList.add('selected' === i ? 'selected' : '');
+  });
+  opts[idx].classList.add('selected');
+  document.getElementById('pollOpts').classList.add('poll-voted');
+  document.getElementById('pollMsg').textContent = msgs[idx];
+}
+
+/* ── MESSAGES ── */
+const seedMsgs = [];
+function renderMsgs(list) {
+  const wrap = document.getElementById('msgList');
+  const empty = document.getElementById('msgEmpty');
+  if (list.length === 0) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  const frag = document.createDocumentFragment();
+  [...list].reverse().forEach(m => {
+    const b = document.createElement('div');
+    b.className = 'msg-bubble';
+    b.innerHTML = `<div class="msg-bubble-name">${escHtml(m.name)}</div><div class="msg-bubble-text">${escHtml(m.text)}</div>`;
+    frag.appendChild(b);
+  });
+  wrap.innerHTML = '';
+  wrap.appendChild(frag);
+  wrap.appendChild(empty);
+}
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function sendMsg() {
+  const n = document.getElementById('msgName').value.trim();
+  const t = document.getElementById('msgText').value.trim();
+  if (!t) { document.getElementById('msgText').focus(); return; }
+  const name = n || 'Convidado(a) anônimo(a)';
+  seedMsgs.push({ name, text: t });
+  renderMsgs(seedMsgs);
+  document.getElementById('msgName').value = '';
+  document.getElementById('msgText').value = '';
+  document.getElementById('msgText').placeholder = 'Mensagem enviada com amor 💙';
+  setTimeout(() => { document.getElementById('msgText').placeholder = 'Deixe uma mensagem carinhosa para Zaion… 💙'; }, 3000);
+}
+renderMsgs(seedMsgs);
+</script>
+</body>
+</html>
+
+/* ── COUNTDOWN ── */
+function updateCountdown() {
+  const target = new Date("2026-06-23T00:00:00");
+  const now = new Date();
+  const diff = target - now;
+
+  if (diff <= 0) {
+    document.getElementById("countdown").innerText = "Zaion chegou 💙";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+
+  document.getElementById("countdown").innerText =
+    `Faltam ${days} dias e ${hours} horas 💙`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
