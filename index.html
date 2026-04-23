@@ -9,704 +9,949 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-  /* ─── TOKENS ─────────────────────────────── */
-  :root {
-    --sky-1: #daeeff;
-    --sky-2: #eef6ff;
-    --sky-3: #f7fbff;
-    --blue:  #5b9fd6;
-    --blue-dark: #2d6fa3;
-    --gold:  #c9a84c;
-    --gold-light: #f0d98a;
-    --cream: #fffdf7;
-    --text:  #2a3a4a;
-    --text-light: #5a7080;
-    --white: #ffffff;
-    --radius: 20px;
-    --shadow: 0 8px 40px rgba(45,111,163,.10);
-  }
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --sky-1: #daeeff;
+  --sky-2: #eef6ff;
+  --sky-3: #f7fbff;
+  --blue:  #5b9fd6;
+  --blue-dark: #2d6fa3;
+  --gold:  #c9a84c;
+  --gold-light: #f0d98a;
+  --cream: #fffdf7;
+  --text:  #2a3a4a;
+  --text-light: #5a7080;
+  --white: #ffffff;
+  --radius: 20px;
+  --shadow: 0 8px 40px rgba(45,111,163,.10);
+}
 
-  /* ─── RESET ──────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    overflow-x: hidden;
-  }
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
 
-  /* ─── UTILITY ────────────────────────────── */
-  .section { padding: 72px 24px; max-width: 480px; margin: 0 auto; }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--blue-dark);
-    text-align: center;
-    margin-bottom: 8px;
-  }
-  .section-sub {
-    text-align: center;
-    color: var(--text-light);
-    font-size: .875rem;
-    margin-bottom: 36px;
-    font-weight: 300;
-    letter-spacing: .03em;
-  }
-  .gold-line {
-    display: block;
-    width: 48px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--gold-light), var(--gold));
-    margin: 12px auto 32px;
-    border-radius: 2px;
-  }
+/* ═══════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════ */
+.section { padding: 72px 24px; max-width: 480px; margin: 0 auto; }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.section-sub {
+  text-align: center;
+  color: var(--text-light);
+  font-size: .875rem;
+  margin-bottom: 36px;
+  font-weight: 300;
+  letter-spacing: .03em;
+  line-height: 1.7;
+}
+.gold-line {
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold));
+  margin: 12px auto 32px;
+  border-radius: 2px;
+}
 
-  /* ─── FADE-IN ─────────────────────────────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity .7s ease, transform .7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: none; }
+/* ═══════════════════════════════════════════
+   REVEAL
+═══════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
 
-  /* ════════════════════════════════════════════
-     1. HERO
-  ════════════════════════════════════════════ */
-  #hero {
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(180deg, #b8ddf5 0%, #d6eefb 35%, #eef7ff 65%, #f7fbff 100%);
-    padding: 40px 24px;
-  }
+/* ═══════════════════════════════════════════
+   1. HERO
+═══════════════════════════════════════════ */
+#hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #b8ddf5 0%, #d6eefb 35%, #eef7ff 65%, #f7fbff 100%);
+  padding: 40px 24px 100px;
+}
+.sky-layer { position: absolute; inset: 0; pointer-events: none; }
+.stars { position: absolute; inset: 0; overflow: hidden; }
+.star {
+  position: absolute;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+  opacity: 0;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0; transform: scale(.6); }
+  50%      { opacity: .8; transform: scale(1); }
+}
+.cloud {
+  position: absolute;
+  background: rgba(255,255,255,.82);
+  border-radius: 50px;
+  filter: blur(2px);
+  animation: drift var(--spd, 22s) linear infinite;
+}
+@keyframes drift {
+  from { transform: translateX(-160px); }
+  to   { transform: translateX(calc(100vw + 160px)); }
+}
+.plane-wrap {
+  position: absolute;
+  bottom: 20%;
+  animation: fly 16s linear infinite;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 4px 8px rgba(45,111,163,.3));
+}
+@keyframes fly {
+  0%   { left: -60px;  transform: rotate(-6deg); }
+  45%  { transform: rotate(-2deg); }
+  100% { left: calc(100% + 60px); transform: rotate(-6deg); }
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 40px;
+  padding: 6px 20px;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue-dark);
+  font-weight: 500;
+  margin-bottom: 24px;
+  animation: fadeUp .9s .2s both;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 11vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--blue-dark);
+  animation: fadeUp .9s .35s both;
+}
+.hero-title em { font-style: italic; color: var(--gold); }
+.hero-sub {
+  margin-top: 16px;
+  font-size: 1.05rem;
+  color: var(--text-light);
+  font-weight: 300;
+  letter-spacing: .04em;
+  animation: fadeUp .9s .5s both;
+}
+.hero-date {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(201,168,76,.35);
+  border-radius: 40px;
+  padding: 8px 22px;
+  font-size: .85rem;
+  color: var(--blue-dark);
+  font-weight: 400;
+  animation: fadeUp .9s .65s both;
+}
 
-  /* ── Sky layers ── */
-  .sky-layer {
-    position: absolute; inset: 0;
-    pointer-events: none;
-  }
+/* ── HERO COUNTDOWN ── */
+.hero-countdown-wrap {
+  margin-top: 24px;
+  animation: fadeUp .9s .85s both;
+}
+.hero-countdown-label {
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--blue-dark);
+  opacity: .65;
+  margin-bottom: 10px;
+}
+.hero-cd-cards {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.hero-cd-card {
+  background: rgba(255,255,255,.58);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 14px;
+  padding: 10px 12px 8px;
+  min-width: 56px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(45,111,163,.10), 0 0 0 1px rgba(201,168,76,.10);
+  position: relative;
+  overflow: hidden;
+}
+.hero-cd-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+.hero-cd-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  line-height: 1;
+  display: block;
+  text-shadow: 0 2px 8px rgba(45,111,163,.15);
+}
+.hero-cd-unit {
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-top: 4px;
+  display: block;
+}
 
-  /* Stars */
-  .stars {
-    position: absolute; inset: 0;
-    overflow: hidden;
-  }
-  .star {
-    position: absolute;
-    background: var(--gold);
-    border-radius: 50%;
-    animation: twinkle var(--dur, 3s) ease-in-out infinite;
-    opacity: 0;
-  }
-  @keyframes twinkle {
-    0%,100% { opacity: 0; transform: scale(.6); }
-    50%      { opacity: .8; transform: scale(1); }
-  }
+.hero-scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: .45;
+  animation: fadeUp 1s 1.3s both;
+}
+.hero-scroll span { font-size: .63rem; letter-spacing: .1em; text-transform: uppercase; color: var(--blue-dark); }
+.scroll-arrow { width: 18px; height: 18px; border-right: 1.5px solid var(--blue-dark); border-bottom: 1.5px solid var(--blue-dark); transform: rotate(45deg); animation: bounce 1.5s ease-in-out infinite; }
+@keyframes bounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(4px); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 
-  /* Clouds */
-  .cloud {
-    position: absolute;
-    background: rgba(255,255,255,.82);
-    border-radius: 50px;
-    filter: blur(2px);
-    animation: drift var(--spd, 22s) linear infinite;
-  }
-  .cloud::before, .cloud::after {
-    content: '';
-    position: absolute;
-    background: inherit;
-    border-radius: 50%;
-  }
-  @keyframes drift {
-    from { transform: translateX(-160px); }
-    to   { transform: translateX(calc(100vw + 160px)); }
-  }
+/* ═══════════════════════════════════════════
+   SOUL — "Antes de chegar ao mundo"
+═══════════════════════════════════════════ */
+#soul {
+  background: linear-gradient(170deg, #090f1a 0%, #0e2038 40%, #1a3a5e 100%);
+  padding: 88px 24px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+#soul::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.soul-stars { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.soul-star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+  opacity: 0;
+}
+/* Nebula glow blobs */
+.soul-nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: .18;
+  pointer-events: none;
+}
+.soul-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.soul-glyph {
+  font-size: 3.2rem;
+  display: block;
+  margin-bottom: 20px;
+  animation: soulFloat 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(120,180,255,.7));
+}
+@keyframes soulFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-12px) scale(1.07); }
+}
+.soul-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-weight: 300;
+  color: rgba(255,255,255,.96);
+  margin-bottom: 32px;
+  letter-spacing: .04em;
+}
+.soul-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255,255,255,.78);
+  line-height: 2.1;
+  text-align: center;
+}
+.soul-body em {
+  font-style: normal;
+  color: var(--gold-light);
+  font-weight: 500;
+  text-shadow: 0 0 14px rgba(240,217,138,.5);
+}
+.soul-divider {
+  width: 32px;
+  height: 1px;
+  background: rgba(240,217,138,.35);
+  margin: 28px auto;
+}
+.soul-sig {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .85rem;
+  font-style: italic;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .08em;
+}
 
-  /* Dotted flight path */
-  .flight-path {
-    position: absolute;
-    bottom: 18%;
-    left: 0; right: 0;
-    height: 60px;
-    overflow: visible;
-  }
-  .flight-path svg { width: 100%; height: 100%; overflow: visible; }
+/* ═══════════════════════════════════════════
+   2. ABOUT
+═══════════════════════════════════════════ */
+#about { background: var(--white); }
+.about-card {
+  background: linear-gradient(135deg, #eef6ff 0%, #f7fbff 100%);
+  border: 1px solid rgba(91,159,214,.18);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  position: relative;
+  box-shadow: var(--shadow);
+}
+.about-card::before {
+  content: '💙';
+  position: absolute;
+  top: -18px; left: 50%; transform: translateX(-50%);
+  font-size: 2rem;
+  filter: drop-shadow(0 4px 8px rgba(91,159,214,.4));
+}
+.about-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  text-align: center;
+  margin-bottom: 20px;
+}
+.about-text { font-size: .95rem; line-height: 1.75; color: var(--text); font-weight: 300; }
+.about-text strong { font-weight: 500; color: var(--blue-dark); }
+.meaning-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #3a2800;
+  border-radius: 30px;
+  padding: 5px 16px;
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  margin-top: 16px;
+}
 
-  /* Airplane */
-  .plane-wrap {
-    position: absolute;
-    bottom: 20%;
-    animation: fly 16s linear infinite;
-    font-size: 1.6rem;
-    filter: drop-shadow(0 4px 8px rgba(45,111,163,.3));
-  }
-  @keyframes fly {
-    0%   { left: -60px;  transform: rotate(-6deg); }
-    45%  { transform: rotate(-2deg); }
-    50%  { transform: rotate(-2deg); }
-    100% { left: calc(100% + 60px); transform: rotate(-6deg); }
-  }
+/* ═══════════════════════════════════════════
+   3. CURIOSITIES
+═══════════════════════════════════════════ */
+#curiosities { background: var(--sky-3); }
+.curio-grid { display: flex; flex-direction: column; gap: 14px; }
+.curio-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 2px 20px rgba(45,111,163,.07);
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(180deg, var(--gold-light), var(--gold)) 1;
+  transition: transform .25s ease;
+}
+.curio-card:active { transform: scale(.98); }
+.curio-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.curio-text { font-size: .875rem; line-height: 1.6; color: var(--text); font-weight: 300; }
+.curio-text strong { font-weight: 500; color: var(--blue-dark); display: block; margin-bottom: 2px; }
 
-  /* Hero text */
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255,255,255,.55);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,.8);
-    border-radius: 40px;
-    padding: 6px 20px;
-    font-size: .72rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--blue-dark);
-    font-weight: 500;
-    margin-bottom: 24px;
-    animation: fadeUp .9s .2s both;
-  }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.8rem, 11vw, 4.5rem);
-    font-weight: 300;
-    line-height: 1.1;
-    color: var(--blue-dark);
-    animation: fadeUp .9s .35s both;
-  }
-  .hero-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
-  .hero-sub {
-    margin-top: 16px;
-    font-size: 1.05rem;
-    color: var(--text-light);
-    font-weight: 300;
-    letter-spacing: .04em;
-    animation: fadeUp .9s .5s both;
-  }
-  .hero-date {
-    margin-top: 28px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,255,255,.6);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(201,168,76,.35);
-    border-radius: 40px;
-    padding: 8px 22px;
-    font-size: .85rem;
-    color: var(--blue-dark);
-    font-weight: 400;
-    animation: fadeUp .9s .65s both;
-  }
-  .hero-scroll {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    opacity: .5;
-    animation: fadeUp 1s 1.2s both;
-  }
-  .hero-scroll span { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--blue-dark); }
-  .scroll-arrow { width: 20px; height: 20px; border-right: 1.5px solid var(--blue-dark); border-bottom: 1.5px solid var(--blue-dark); transform: rotate(45deg); animation: bounce 1.5s ease-in-out infinite; }
-  @keyframes bounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(4px); } }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+/* ═══════════════════════════════════════════
+   4. CULTURAL ROOTS — ANIMATED MAP
+═══════════════════════════════════════════ */
+#roots { background: var(--white); }
+.roots-map {
+  background: linear-gradient(160deg, #eef6ff, #fff8e8);
+  border-radius: var(--radius);
+  padding: 32px 20px 28px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.roots-map::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(91,159,214,.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.roots-cities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 28px;
+}
+.city-node { text-align: center; flex: 1; }
+.city-icon {
+  width: 60px; height: 60px;
+  background: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  margin: 0 auto 10px;
+  box-shadow: 0 4px 20px rgba(45,111,163,.15);
+  border: 2px solid rgba(201,168,76,.3);
+}
+.city-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--blue-dark); }
+.city-state { font-size: .68rem; color: var(--text-light); letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
 
-<!-- ══════════════════════════════════════
-     NOVO: BEFORE ARRIVAL
-══════════════════════════════════════ -->
-<section id="before" class="section" style="background:#f7fbff;">
-  <h2 class="section-title reveal">Antes de chegar</h2>
-  <span class="gold-line reveal"></span>
+/* Animated route */
+.route-track {
+  flex: 0 0 72px;
+  position: relative;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+.route-dashes {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+  background-image: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 5px, transparent 5px, transparent 10px);
+  opacity: .45;
+}
+.route-plane-anim {
+  position: absolute;
+  font-size: 1.2rem;
+  top: 50%;
+  transform: translateY(-60%);
+  animation: routeFly 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 2px 5px rgba(45,111,163,.35));
+}
+@keyframes routeFly {
+  0%   { left: -4px;  opacity: 0; transform: translateY(-60%) scale(.75) rotate(-5deg); }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { left: calc(100% - 2px); opacity: 0; transform: translateY(-60%) scale(.75) rotate(-5deg); }
+}
 
-  <p class="section-sub reveal" style="max-width:320px;margin:0 auto;line-height:1.8;">
-    💙 Antes mesmo de chegar…<br>
-    já tenho uma história sendo escrita.<br><br>
-    Já tenho nome, família, cultura…<br>
-    e pessoas incríveis esperando por mim.
-  </p>
-</section>
+.culture-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+.culture-tag {
+  background: rgba(255,255,255,.85);
+  border: 1px solid rgba(201,168,76,.3);
+  border-radius: 30px;
+  padding: 6px 14px;
+  font-size: .78rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 400;
+  backdrop-filter: blur(4px);
+}
 
-  /* ════════════════════════════════════════════
-     2. ABOUT
-  ════════════════════════════════════════════ */
-  #about { background: var(--white); }
-  .about-card {
-    background: linear-gradient(135deg, #eef6ff 0%, #f7fbff 100%);
-    border: 1px solid rgba(91,159,214,.18);
-    border-radius: var(--radius);
-    padding: 32px 28px;
-    position: relative;
-    box-shadow: var(--shadow);
-  }
-  .about-card::before {
-    content: '💙';
-    position: absolute;
-    top: -18px; left: 50%; transform: translateX(-50%);
-    font-size: 2rem;
-    filter: drop-shadow(0 4px 8px rgba(91,159,214,.4));
-  }
-  .about-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.7rem;
-    font-weight: 600;
-    color: var(--blue-dark);
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .about-text {
-    font-size: .95rem;
-    line-height: 1.75;
-    color: var(--text);
-    font-weight: 300;
-  }
-  .about-text strong { font-weight: 500; color: var(--blue-dark); }
-  .meaning-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #3a2800;
-    border-radius: 30px;
-    padding: 5px 16px;
-    font-size: .78rem;
-    font-weight: 500;
-    letter-spacing: .04em;
-    margin-top: 16px;
-  }
+/* ═══════════════════════════════════════════
+   5. INTERACTIVE — POLL + MESSAGES
+═══════════════════════════════════════════ */
+#interactive { background: var(--sky-3); }
+.tabs {
+  display: flex;
+  background: var(--white);
+  border-radius: 40px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(45,111,163,.1);
+}
+.tab-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border: none;
+  background: transparent;
+  border-radius: 36px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all .25s;
+}
+.tab-btn.active { background: var(--blue-dark); color: var(--white); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.poll-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.35;
+}
+.poll-opts { display: flex; flex-direction: column; gap: 12px; }
+.poll-opt {
+  background: var(--white);
+  border: 1.5px solid rgba(91,159,214,.25);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+}
+.poll-opt:active { transform: scale(.98); }
+.poll-opt.selected { border-color: var(--blue); background: linear-gradient(135deg, #eef6ff, #f7fbff); }
+.poll-opt-emoji { font-size: 1.6rem; flex-shrink: 0; }
+.poll-opt-label { font-size: .9rem; font-weight: 500; color: var(--text); }
+.poll-bar-wrap { position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; background: rgba(91,159,214,.1); }
+.poll-bar { height: 100%; background: linear-gradient(90deg, var(--blue), var(--gold)); transition: width .6s cubic-bezier(.4,0,.2,1); }
+.poll-pct { margin-left: auto; font-size: .8rem; font-weight: 600; color: var(--blue); opacity: 0; transition: opacity .3s; }
+.poll-voted .poll-pct { opacity: 1; }
+.poll-result-msg {
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--gold);
+  min-height: 32px;
+}
+.msg-input-wrap { display: flex; flex-direction: column; gap: 12px; }
+.msg-name, .msg-text {
+  width: 100%;
+  border: 1.5px solid rgba(91,159,214,.25);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .875rem;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  resize: none;
+  transition: border-color .2s;
+}
+.msg-name:focus, .msg-text:focus { border-color: var(--blue); }
+.msg-text { min-height: 100px; }
+.msg-send {
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  color: var(--white);
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity .2s, transform .15s;
+  letter-spacing: .02em;
+}
+.msg-send:active { transform: scale(.97); }
+.msg-list { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.msg-bubble {
+  background: var(--white);
+  border-radius: 16px 16px 16px 4px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 14px rgba(45,111,163,.08);
+  animation: popIn .35s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes popIn { from{opacity:0;transform:scale(.9) translateY(8px);} to{opacity:1;transform:none;} }
+.msg-bubble-name { font-size: .72rem; font-weight: 500; color: var(--gold); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 5px; }
+.msg-bubble-text { font-size: .875rem; line-height: 1.6; color: var(--text); font-weight: 300; }
+.msg-empty { text-align: center; color: var(--text-light); font-size: .85rem; font-style: italic; padding: 20px 0; }
 
-<section id="family" class="section">
-  <h2 class="section-title reveal">Minha família</h2>
-  <span class="gold-line reveal"></span>
+/* ═══════════════════════════════════════════
+   TIME CAPSULE
+═══════════════════════════════════════════ */
+#capsule {
+  padding: 72px 24px;
+  background: linear-gradient(160deg, #fff9ed, #fffdf7);
+}
+.capsule-inner { max-width: 480px; margin: 0 auto; }
+.capsule-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  box-shadow: 0 12px 48px rgba(201,168,76,.12);
+  border: 1px solid rgba(201,168,76,.22);
+  position: relative;
+  overflow: hidden;
+}
+.capsule-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-light));
+}
+.capsule-glyph {
+  font-size: 2.2rem;
+  display: block;
+  text-align: center;
+  margin-bottom: 14px;
+  animation: soulFloat 5s ease-in-out infinite;
+}
+.capsule-poem {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.85;
+  margin-bottom: 28px;
+}
+.capsule-form { display: flex; flex-direction: column; gap: 12px; }
+.capsule-input, .capsule-textarea, .capsule-select {
+  width: 100%;
+  border: 1.5px solid rgba(201,168,76,.25);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .875rem;
+  color: var(--text);
+  background: #fffdf5;
+  outline: none;
+  resize: none;
+  transition: border-color .25s, background .25s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.capsule-input:focus, .capsule-textarea:focus, .capsule-select:focus {
+  border-color: var(--gold);
+  background: var(--white);
+}
+.capsule-textarea { min-height: 110px; }
+.capsule-select-wrap { position: relative; }
+.capsule-select-wrap::after {
+  content: '▾';
+  position: absolute;
+  right: 16px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  pointer-events: none;
+}
+.capsule-btn {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #3a2800;
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .2s;
+  letter-spacing: .02em;
+  box-shadow: 0 6px 24px rgba(201,168,76,.28);
+}
+.capsule-btn:active { transform: scale(.97); }
+.capsule-confirm {
+  display: none;
+  text-align: center;
+  padding: 22px 0 4px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--gold);
+  line-height: 1.7;
+  animation: fadeUp .5s both;
+}
 
-  <div class="about-card reveal">
-    <p class="about-text" style="text-align:center;">
-      👨‍👩‍👦<br><br>
-      Fui sonhado, esperado e já sou muito amado.<br><br>
-      Papai e mamãe escolheram meu nome com carinho,<br>
-      e mal podem esperar para me conhecer 💙
-    </p>
-  </div>
-</section>
+/* ═══════════════════════════════════════════
+   6. GALLERY
+═══════════════════════════════════════════ */
+#gallery { background: var(--white); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.gallery-placeholder {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #daeeff, #eef6ff);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 1.4rem;
+  color: rgba(91,159,214,.4);
+}
+.gallery-placeholder span {
+  font-size: .58rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(91,159,214,.5);
+  font-weight: 500;
+}
+.gallery-note { text-align: center; margin-top: 16px; font-size: .8rem; color: var(--text-light); font-style: italic; line-height: 1.7; }
+.gallery-upload-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  color: var(--white);
+  padding: 13px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: .88rem;
+  font-weight: 500;
+  box-shadow: 0 6px 20px rgba(45,111,163,.2);
+  transition: transform .15s;
+}
 
-  /* ════════════════════════════════════════════
-     3. CURIOSITIES
-  ════════════════════════════════════════════ */
-  #curiosities { background: var(--sky-3); }
-  .curio-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .curio-card {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 20px 22px;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    box-shadow: 0 2px 20px rgba(45,111,163,.07);
-    border-left: 3px solid transparent;
-    border-image: linear-gradient(180deg, var(--gold-light), var(--gold)) 1;
-    transition: transform .25s ease, box-shadow .25s ease;
-  }
-  .curio-card:active { transform: scale(.98); }
-  .curio-icon {
-    font-size: 1.6rem;
-    flex-shrink: 0;
-    line-height: 1;
-    margin-top: 2px;
-  }
-  .curio-text {
-    font-size: .875rem;
-    line-height: 1.6;
-    color: var(--text);
-    font-weight: 300;
-  }
-  .curio-text strong { font-weight: 500; color: var(--blue-dark); display: block; margin-bottom: 2px; }
+/* ═══════════════════════════════════════════
+   VISITOR COUNTER
+═══════════════════════════════════════════ */
+#visitors {
+  background: var(--sky-3);
+  padding: 56px 24px;
+}
+.visitors-inner { max-width: 480px; margin: 0 auto; text-align: center; }
+.visitors-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  margin-bottom: 8px;
+}
+.visitors-sub { font-size: .78rem; color: var(--text-light); letter-spacing: .04em; margin-bottom: 24px; }
+.visitors-grid { display: flex; gap: 16px; justify-content: center; }
+.visitor-stat {
+  flex: 1;
+  max-width: 160px;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 22px 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(91,159,214,.10);
+}
+.visitor-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.visitor-label { font-size: .7rem; color: var(--text-light); letter-spacing: .07em; text-transform: uppercase; }
 
-  /* ════════════════════════════════════════════
-     4. CULTURAL ROOTS
-  ════════════════════════════════════════════ */
-  #roots { background: var(--white); }
-  .roots-map {
-    background: linear-gradient(160deg, #eef6ff, #fff8e8);
-    border-radius: var(--radius);
-    padding: 32px 20px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-  }
-  .roots-map::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle, rgba(91,159,214,.08) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-  .roots-cities {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 32px;
-  }
-  .city-node {
-    text-align: center;
-    flex: 1;
-  }
-  .city-icon {
-    width: 64px; height: 64px;
-    background: var(--white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    margin: 0 auto 10px;
-    box-shadow: 0 4px 20px rgba(45,111,163,.15);
-    border: 2px solid rgba(201,168,76,.3);
-  }
-  .city-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--blue-dark);
-  }
-  .city-state {
-    font-size: .72rem;
-    color: var(--text-light);
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-  .route-line {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    padding: 0 8px;
-    margin-bottom: 28px;
-  }
-  .route-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--gold);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  .route-dot:nth-child(2) { animation-delay: .3s; }
-  .route-dot:nth-child(3) { animation-delay: .6s; }
-  .route-dot:nth-child(4) { animation-delay: .9s; }
-  .route-dot:nth-child(5) { animation-delay: 1.2s; }
-  @keyframes pulse { 0%,100%{opacity:.2;} 50%{opacity:1;} }
+/* ═══════════════════════════════════════════
+   BIG COUNTDOWN
+═══════════════════════════════════════════ */
+#countdown-section {
+  background: linear-gradient(160deg, #ddf0ff, #eef7ff, #f7fbff);
+  padding: 76px 24px;
+  text-align: center;
+}
+.cd-outer { max-width: 480px; margin: 0 auto; }
+.cd-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--blue-dark);
+  margin-bottom: 6px;
+}
+.cd-sub {
+  font-size: .75rem;
+  color: var(--text-light);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.cd-cards {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.cd-card {
+  flex: 1;
+  max-width: 90px;
+  background: var(--white);
+  border-radius: 18px;
+  padding: 18px 8px 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px rgba(45,111,163,.12),
+    0 0 0 1px rgba(201,168,76,.18),
+    0 0 30px rgba(201,168,76,.06) inset;
+}
+/* Shimmer top bar */
+.cd-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-light) 40%, var(--gold) 60%, transparent 100%);
+  animation: cdShimmer 2.2s ease-in-out infinite;
+}
+@keyframes cdShimmer {
+  0%,100% { opacity: .3; transform: scaleX(.5); }
+  50%      { opacity: 1;  transform: scaleX(1); }
+}
+/* Glow inside */
+.cd-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(240,217,138,.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cd-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  line-height: 1;
+  display: block;
+  text-shadow: 0 2px 14px rgba(45,111,163,.2);
+  transition: transform .12s;
+}
+.cd-num.flip { animation: numFlip .22s ease both; }
+@keyframes numFlip {
+  0%   { transform: translateY(-5px); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+.cd-unit {
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-top: 7px;
+  display: block;
+}
 
-  .culture-tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    position: relative;
-    z-index: 1;
-  }
-  .culture-tag {
-    background: rgba(255,255,255,.85);
-    border: 1px solid rgba(201,168,76,.3);
-    border-radius: 30px;
-    padding: 6px 16px;
-    font-size: .78rem;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 400;
-    backdrop-filter: blur(4px);
-  }
+/* ═══════════════════════════════════════════
+   7. CLOSING
+═══════════════════════════════════════════ */
+#closing {
+  background: linear-gradient(170deg, #1a4a72 0%, #2d6fa3 50%, #3a8fc7 100%);
+  padding: 80px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.closing-stars { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.closing-star {
+  position: absolute;
+  background: var(--gold-light);
+  border-radius: 50%;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+  opacity: 0;
+}
+.closing-inner { position: relative; z-index: 1; max-width: 380px; margin: 0 auto; }
+.closing-heart {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 24px;
+  animation: heartbeat 2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 16px rgba(91,159,214,.6));
+}
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  14%     { transform: scale(1.18); }
+  28%     { transform: scale(1); }
+  42%     { transform: scale(1.1); }
+  56%     { transform: scale(1); }
+}
+.closing-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+.closing-sig {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--gold-light);
+  margin-top: 28px;
+}
+.closing-divider { width: 48px; height: 1px; background: rgba(255,255,255,.3); margin: 20px auto; }
 
-  /* ════════════════════════════════════════════
-     5. INTERACTIVE — POLL + MESSAGES
-  ════════════════════════════════════════════ */
-  #interactive { background: var(--sky-3); }
-  .tabs {
-    display: flex;
-    background: var(--white);
-    border-radius: 40px;
-    padding: 4px;
-    gap: 4px;
-    margin-bottom: 28px;
-    box-shadow: 0 2px 12px rgba(45,111,163,.1);
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 10px 8px;
-    border: none;
-    background: transparent;
-    border-radius: 36px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: .8rem;
-    font-weight: 500;
-    color: var(--text-light);
-    cursor: pointer;
-    transition: all .25s;
-  }
-  .tab-btn.active {
-    background: var(--blue-dark);
-    color: var(--white);
-  }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* Poll */
-  .poll-question {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--blue-dark);
-    text-align: center;
-    margin-bottom: 24px;
-    line-height: 1.35;
-  }
-  .poll-opts {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .poll-opt {
-    background: var(--white);
-    border: 1.5px solid rgba(91,159,214,.25);
-    border-radius: 14px;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    cursor: pointer;
-    transition: all .2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .poll-opt:active { transform: scale(.98); }
-  .poll-opt.selected { border-color: var(--blue); background: linear-gradient(135deg, #eef6ff, #f7fbff); }
-  .poll-opt-emoji { font-size: 1.6rem; flex-shrink: 0; }
-  .poll-opt-label { font-size: .9rem; font-weight: 500; color: var(--text); }
-  .poll-bar-wrap {
-    position: absolute;
-    bottom: 0; left: 0;
-    height: 3px;
-    width: 100%;
-    background: rgba(91,159,214,.1);
-  }
-  .poll-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--blue), var(--gold));
-    transition: width .6s cubic-bezier(.4,0,.2,1);
-  }
-  .poll-pct {
-    margin-left: auto;
-    font-size: .8rem;
-    font-weight: 600;
-    color: var(--blue);
-    opacity: 0;
-    transition: opacity .3s;
-  }
-  .poll-voted .poll-pct { opacity: 1; }
-  .poll-result-msg {
-    text-align: center;
-    margin-top: 20px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--gold);
-    min-height: 32px;
-    transition: opacity .4s;
-  }
-
-  /* Messages */
-  .msg-input-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .msg-name, .msg-text {
-    width: 100%;
-    border: 1.5px solid rgba(91,159,214,.25);
-    border-radius: 14px;
-    padding: 14px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: .875rem;
-    color: var(--text);
-    background: var(--white);
-    outline: none;
-    resize: none;
-    transition: border-color .2s;
-  }
-  .msg-name:focus, .msg-text:focus { border-color: var(--blue); }
-  .msg-text { min-height: 100px; }
-  .msg-send {
-    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-    color: var(--white);
-    border: none;
-    border-radius: 14px;
-    padding: 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: .9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity .2s, transform .15s;
-    letter-spacing: .02em;
-  }
-  .msg-send:active { transform: scale(.97); }
-  .msg-list {
-    margin-top: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .msg-bubble {
-    background: var(--white);
-    border-radius: 16px 16px 16px 4px;
-    padding: 16px 18px;
-    box-shadow: 0 2px 14px rgba(45,111,163,.08);
-    animation: popIn .35s cubic-bezier(.4,0,.2,1) both;
-  }
-  @keyframes popIn { from{opacity:0;transform:scale(.9) translateY(8px);} to{opacity:1;transform:none;} }
-  .msg-bubble-name {
-    font-size: .72rem;
-    font-weight: 500;
-    color: var(--gold);
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-  }
-  .msg-bubble-text {
-    font-size: .875rem;
-    line-height: 1.6;
-    color: var(--text);
-    font-weight: 300;
-  }
-  .msg-empty {
-    text-align: center;
-    color: var(--text-light);
-    font-size: .85rem;
-    font-style: italic;
-    padding: 20px 0;
-  }
-
-  /* ════════════════════════════════════════════
-     6. GALLERY
-  ════════════════════════════════════════════ */
-  #gallery { background: var(--white); }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .gallery-placeholder {
-    aspect-ratio: 1;
-    background: linear-gradient(135deg, #daeeff, #eef6ff);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 1.4rem;
-    color: rgba(91,159,214,.4);
-  }
-  .gallery-placeholder span {
-    font-size: .58rem;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: rgba(91,159,214,.5);
-    font-weight: 500;
-  }
-  .gallery-note {
-    text-align: center;
-    margin-top: 20px;
-    font-size: .8rem;
-    color: var(--text-light);
-    font-style: italic;
-    line-height: 1.6;
-  }
-
-  /* ════════════════════════════════════════════
-     7. CLOSING
-  ════════════════════════════════════════════ */
-  #closing {
-    background: linear-gradient(170deg, #1a4a72 0%, #2d6fa3 50%, #3a8fc7 100%);
-    padding: 80px 24px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  #closing::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-  .closing-stars {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .closing-star {
-    position: absolute;
-    background: var(--gold-light);
-    border-radius: 50%;
-    animation: twinkle var(--dur, 3s) ease-in-out infinite;
-    opacity: 0;
-  }
-  .closing-inner { position: relative; z-index: 1; max-width: 380px; margin: 0 auto; }
-  .closing-heart {
-    font-size: 3.5rem;
-    display: block;
-    margin-bottom: 24px;
-    animation: heartbeat 2s ease-in-out infinite;
-    filter: drop-shadow(0 4px 16px rgba(91,159,214,.6));
-  }
-  @keyframes heartbeat {
-    0%,100% { transform: scale(1); }
-    14%     { transform: scale(1.18); }
-    28%     { transform: scale(1); }
-    42%     { transform: scale(1.1); }
-    56%     { transform: scale(1); }
-  }
-  .closing-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-    font-weight: 300;
-    color: var(--white);
-    line-height: 1.4;
-    margin-bottom: 20px;
-  }
-  .closing-sig {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--gold-light);
-    margin-top: 28px;
-  }
-  .closing-divider {
-    width: 48px;
-    height: 1px;
-    background: rgba(255,255,255,.3);
-    margin: 20px auto;
-  }
+/* Final bottom reveal message */
+.final-reveal {
+  margin-top: 44px;
+  padding: 26px 22px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 1s ease .3s, transform 1s ease .3s;
+}
+.final-reveal.visible { opacity: 1; transform: none; }
+.final-reveal p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: rgba(255,255,255,.88);
+  line-height: 1.75;
+}
 </style>
 </head>
 <body>
@@ -715,32 +960,87 @@
      1. HERO
 ══════════════════════════════════════ -->
 <section id="hero">
-  <!-- Stars -->
   <div class="stars" id="heroStars"></div>
-
-  <!-- Clouds -->
   <div class="sky-layer" id="heroClouds"></div>
-
-  <!-- Plane -->
   <div class="plane-wrap">✈️</div>
 
-  <!-- Text -->
   <div class="hero-badge">✨ Bem-vindo ao mundo, Zaion</div>
 
-  <h1 class="hero-title">
-    Willkommen,<br>
-    <em>Zaion</em> 💙
-  </h1>
-
+  <h1 class="hero-title">Willkommen,<br><em>Zaion</em> 💙</h1>
   <p class="hero-sub">Uma nova jornada está começando</p>
+  <div class="hero-date">📅 &nbsp; Chegada prevista: <strong>23–24 de junho, 2026</strong></div>
 
-  <div class="hero-date">
-    📅 &nbsp; Chegada prevista: <strong>23–24 de junho, 2026</strong>
+  <!-- Hero mini countdown -->
+  <div class="hero-countdown-wrap">
+    <p class="hero-countdown-label">Faltam</p>
+    <div class="hero-cd-cards">
+      <div class="hero-cd-card">
+        <span class="hero-cd-num" id="hcd-days">00</span>
+        <span class="hero-cd-unit">dias</span>
+      </div>
+      <div class="hero-cd-card">
+        <span class="hero-cd-num" id="hcd-hours">00</span>
+        <span class="hero-cd-unit">horas</span>
+      </div>
+      <div class="hero-cd-card">
+        <span class="hero-cd-num" id="hcd-min">00</span>
+        <span class="hero-cd-unit">min</span>
+      </div>
+      <div class="hero-cd-card">
+        <span class="hero-cd-num" id="hcd-sec">00</span>
+        <span class="hero-cd-unit">seg</span>
+      </div>
+    </div>
   </div>
 
   <div class="hero-scroll">
     <span>Explore</span>
     <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SOUL — "Antes de chegar ao mundo"
+══════════════════════════════════════ -->
+<section id="soul">
+  <!-- Nebula blobs -->
+  <div class="soul-nebula" style="width:220px;height:220px;background:#2a5fa8;top:-60px;left:-60px;"></div>
+  <div class="soul-nebula" style="width:180px;height:180px;background:#6030a0;bottom:40px;right:-50px;"></div>
+  <div class="soul-nebula" style="width:140px;height:140px;background:#204060;top:40%;left:60%;"></div>
+
+  <div class="soul-stars" id="soulStars"></div>
+
+  <div class="soul-inner">
+    <span class="soul-glyph reveal">🌌</span>
+    <h2 class="soul-title reveal">Antes de chegar ao mundo</h2>
+    <div class="soul-divider reveal"></div>
+
+    <p class="soul-body reveal">
+      Dizem que antes de nascer,<br>
+      toda alma viaja entre estrelas.<br><br>
+
+      Ela observa, sente, escolhe.<br><br>
+
+      E eu — antes mesmo de ter um nome —<br>
+      já sabia para onde ir.<br><br>
+
+      Vi nos olhos de <em>Cíntia</em><br>
+      a ternura de quem acolhe o mundo inteiro.<br>
+      Vi nas mãos de <em>Régis</em><br>
+      a força serena de quem protege com amor.<br><br>
+
+      Não foi por acaso.<br>
+      Foi a escolha mais bonita<br>
+      de toda a minha jornada.<br><br>
+
+      E então desci,<br>
+      entre nuvens e estrelas,<br>
+      em direção ao lar que eu mesmo escolhi.
+    </p>
+
+    <div class="soul-divider reveal"></div>
+    <p class="soul-sig reveal">— uma alma a caminho 💙</p>
   </div>
 </section>
 
@@ -759,7 +1059,7 @@
       <strong>Terra Prometida</strong>.<br><br>
       Eu represento <strong>esperança</strong>, <strong>paz</strong> e um mundo melhor.
     </p>
-    <div style="text-align:center; margin-top:20px;">
+    <div style="text-align:center;margin-top:20px;">
       <span class="meaning-pill">✨ &nbsp;Terra Prometida &nbsp;·&nbsp; Esperança &nbsp;·&nbsp; Paz</span>
     </div>
   </div>
@@ -777,35 +1077,30 @@
   <div class="curio-grid">
     <div class="curio-card reveal">
       <div class="curio-icon">🎬</div>
-      <p class="curio-text"><strong>Meu nome em Matrix</strong>
-        Em Matrix, Zion é o último refúgio da humanidade — um lugar de esperança no fim do mundo.</p>
+      <p class="curio-text"><strong>Meu nome em Matrix</strong>Em Matrix, Zion é o último refúgio da humanidade — um lugar de esperança no fim do mundo.</p>
     </div>
     <div class="curio-card reveal">
       <div class="curio-icon">💕</div>
-      <p class="curio-text"><strong>Escolhido com amor</strong>
-        Meu nome foi escolhido pelo papai e pela mamãe com muito carinho.</p>
+      <p class="curio-text"><strong>Escolhido com amor</strong>Meu nome foi escolhido pelo papai e pela mamãe com muito carinho.</p>
     </div>
     <div class="curio-card reveal">
       <div class="curio-icon">🗺️</div>
-      <p class="curio-text"><strong>Minha primeira rota</strong>
-        Natal – RN → Nova Petrópolis – RS. Uma jornada de 3.200 km de coração a coração.</p>
+      <p class="curio-text"><strong>Minha primeira rota</strong>Natal – RN → Nova Petrópolis – RS. Uma jornada de 3.200 km de coração a coração.</p>
     </div>
     <div class="curio-card reveal">
       <div class="curio-icon">🎶</div>
-      <p class="curio-text"><strong>Música no sangue</strong>
-        Posso amar tanto a banda gaúcha quanto o rastapé nordestino. As duas batidas já correm nas minhas veias.</p>
+      <p class="curio-text"><strong>Música no sangue</strong>Posso amar tanto a banda gaúcha quanto o rastapé nordestino. As duas batidas já correm nas minhas veias.</p>
     </div>
     <div class="curio-card reveal">
       <div class="curio-icon">🎉</div>
-      <p class="curio-text"><strong>Chegada no São João</strong>
-        Minha chegada está prevista para 23–24 de junho — no coração do São João! Quadrilha na maternidade? 🤔</p>
+      <p class="curio-text"><strong>Chegada no São João</strong>Minha chegada está prevista para 23–24 de junho — no coração do São João! Quadrilha na maternidade? 🤔</p>
     </div>
   </div>
 </section>
 
 
 <!-- ══════════════════════════════════════
-     4. RAÍZES CULTURAIS
+     4. RAÍZES CULTURAIS — mapa animado
 ══════════════════════════════════════ -->
 <section id="roots" class="section">
   <h2 class="section-title reveal">Raízes Culturais</h2>
@@ -820,22 +1115,9 @@
         <div class="city-state">RN · Brasil</div>
       </div>
 
-      <div class="route-line">
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
-      </div>
-
-      <div style="font-size:1.4rem;margin-bottom:28px;flex-shrink:0;">✈️</div>
-
-      <div class="route-line">
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
-        <div class="route-dot"></div>
+      <div class="route-track">
+        <div class="route-dashes"></div>
+        <div class="route-plane-anim">✈️</div>
       </div>
 
       <div class="city-node">
@@ -869,27 +1151,27 @@
 
   <div class="reveal">
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('poll')">🗳️ Votação</button>
-      <button class="tab-btn" onclick="switchTab('msg')">💌 Mensagem</button>
+      <button class="tab-btn active" onclick="switchTab('poll',event)">🗳️ Votação</button>
+      <button class="tab-btn" onclick="switchTab('msg',event)">💌 Mensagem</button>
     </div>
 
     <!-- POLL -->
     <div class="tab-panel active" id="tab-poll">
       <p class="poll-question">Com quem Zaion vai parecer mais?</p>
       <div class="poll-opts" id="pollOpts">
-        <div class="poll-opt" onclick="vote(0)" data-idx="0">
+        <div class="poll-opt" onclick="vote(0)">
           <span class="poll-opt-emoji">👩</span>
           <span class="poll-opt-label">Com a Mamãe</span>
           <span class="poll-pct" id="pct0">0%</span>
           <div class="poll-bar-wrap"><div class="poll-bar" id="bar0" style="width:0%"></div></div>
         </div>
-        <div class="poll-opt" onclick="vote(1)" data-idx="1">
+        <div class="poll-opt" onclick="vote(1)">
           <span class="poll-opt-emoji">👨</span>
           <span class="poll-opt-label">Com o Papai</span>
           <span class="poll-pct" id="pct1">0%</span>
           <div class="poll-bar-wrap"><div class="poll-bar" id="bar1" style="width:0%"></div></div>
         </div>
-        <div class="poll-opt" onclick="vote(2)" data-idx="2">
+        <div class="poll-opt" onclick="vote(2)">
           <span class="poll-opt-emoji">🎲</span>
           <span class="poll-opt-label">Uma surpresa!</span>
           <span class="poll-pct" id="pct2">0%</span>
@@ -915,6 +1197,48 @@
 
 
 <!-- ══════════════════════════════════════
+     CÁPSULA DO TEMPO
+══════════════════════════════════════ -->
+<section id="capsule">
+  <div class="capsule-inner">
+    <h2 class="section-title reveal">Uma mensagem para o futuro</h2>
+    <span class="gold-line reveal"></span>
+    <p class="section-sub reveal">
+      Escreva algo que Zaion vai ler um dia…<br>
+      quando estiver pronto para entender.
+    </p>
+
+    <div class="capsule-card reveal">
+      <span class="capsule-glyph">📮</span>
+      <p class="capsule-poem">
+        "Cada palavra escrita hoje<br>
+        é uma estrela guardada no tempo.<br>
+        Um dia, Zaion vai encontrá-las."
+      </p>
+
+      <div class="capsule-form">
+        <input class="capsule-input" id="capName" type="text" placeholder="Seu nome (opcional) 🌟" maxlength="60" />
+        <textarea class="capsule-textarea" id="capMsg" placeholder="O que você quer dizer para Zaion no futuro? 💙" maxlength="500"></textarea>
+        <div class="capsule-select-wrap">
+          <select class="capsule-select" id="capYear">
+            <option value="5">📬 Abrir quando Zaion tiver 5 anos</option>
+            <option value="10">📬 Abrir quando Zaion tiver 10 anos</option>
+            <option value="18">📬 Abrir quando Zaion tiver 18 anos</option>
+          </select>
+        </div>
+        <button class="capsule-btn" onclick="sendCapsule()">Guardar no tempo ✨</button>
+      </div>
+
+      <p class="capsule-confirm" id="capConfirm">
+        Sua mensagem foi guardada no tempo 💙<br>
+        <span style="font-size:.85rem;color:var(--text-light);font-style:normal;display:block;margin-top:4px;">Zaion vai encontrá-la na hora certa.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
      6. GALERIA
 ══════════════════════════════════════ -->
 <section id="gallery" class="section">
@@ -930,58 +1254,68 @@
     <div class="gallery-placeholder">📸<span>em breve</span></div>
     <div class="gallery-placeholder">📸<span>em breve</span></div>
   </div>
-  <p class="gallery-note reveal">
-<div style="text-align:center;margin-top:24px;">
-  <a href="https://drive.google.com/drive/folders/1euNsm5YU3DYoN34ijIIhMeA_4CS5HTmL?usp=sharing" target="_blank" style="
-    display:inline-block;
-    background: linear-gradient(135deg, #5b9fd6, #2d6fa3);
-    color:#fff;
-    padding:14px 24px;
-    border-radius:30px;
-    text-decoration:none;
-    font-size:.9rem;
-    font-weight:500;
-    box-shadow:0 6px 20px rgba(45,111,163,.2);
-  ">
-    📸 Enviar fotos 💙
-  </a>
-</div>
-    As fotos do chá de bebê serão adicionadas aqui<br>como uma lembrança especial desse dia. 🌸
-  </p>
+  <div style="text-align:center;">
+    <a class="gallery-upload-btn reveal"
+       href="https://drive.google.com/drive/folders/1euNsm5YU3DYoN34ijIIhMeA_4CS5HTmL?usp=sharing"
+       target="_blank">📸 Enviar fotos 💙</a>
+  </div>
+  <p class="gallery-note reveal">As fotos do chá de bebê serão adicionadas aqui<br>como uma lembrança especial desse dia. 🌸</p>
 </section>
 
-<section class="section" style="background:#eef6ff;">
-  <h2 class="section-title reveal">Uma mensagem para o futuro</h2>
-  <span class="gold-line reveal"></span>
 
-  <p class="section-sub reveal" style="max-width:340px;margin:0 auto;line-height:1.8;">
-    💌 Deixe um recado para mim…<br><br>
-    Um dia eu vou ler tudo isso<br>
-    e lembrar o quanto já era amado 💙
-  </p>
-
-  <div style="text-align:center;margin-top:24px;">
-    <a href="https://forms.gle/tyy7wYg3QjyVDqxt7" target="_blank" style="
-      display:inline-block;
-      background: linear-gradient(135deg, #c9a84c, #f0d98a);
-      color:#3a2800;
-      padding:14px 24px;
-      border-radius:30px;
-      text-decoration:none;
-      font-size:.9rem;
-      font-weight:500;
-    ">
-      💌 Deixar mensagem
-    </a>
+<!-- ══════════════════════════════════════
+     QUEM PASSOU POR AQUI
+══════════════════════════════════════ -->
+<section id="visitors">
+  <div class="visitors-inner">
+    <h2 class="visitors-title reveal">Quem já passou por aqui 💙</h2>
+    <p class="visitors-sub reveal">cada visita é um abraço para Zaion</p>
+    <div class="visitors-grid reveal">
+      <div class="visitor-stat">
+        <span class="visitor-num" id="visitorCount">0</span>
+        <span class="visitor-label">visitantes</span>
+      </div>
+      <div class="visitor-stat">
+        <span class="visitor-num" id="msgCountDisplay">0</span>
+        <span class="visitor-label">mensagens</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section" style="text-align:center;">
-  <h2 class="section-title reveal">Contagem regressiva</h2>
-  <span class="gold-line reveal"></span>
 
-  <p id="countdown" style="font-size:1.4rem; color:#2d6fa3; font-weight:500;"></p>
+<!-- ══════════════════════════════════════
+     CONTAGEM REGRESSIVA (grande)
+══════════════════════════════════════ -->
+<section id="countdown-section">
+  <div class="cd-outer">
+    <h2 class="cd-headline reveal">Faltam para conhecer Zaion</h2>
+    <p class="cd-sub reveal">23 de junho de 2026 · São João 🎉</p>
+    <div class="cd-cards reveal">
+      <div class="cd-card">
+        <div class="cd-glow"></div>
+        <span class="cd-num" id="cd-days">00</span>
+        <span class="cd-unit">dias</span>
+      </div>
+      <div class="cd-card">
+        <div class="cd-glow"></div>
+        <span class="cd-num" id="cd-hours">00</span>
+        <span class="cd-unit">horas</span>
+      </div>
+      <div class="cd-card">
+        <div class="cd-glow"></div>
+        <span class="cd-num" id="cd-min">00</span>
+        <span class="cd-unit">min</span>
+      </div>
+      <div class="cd-card">
+        <div class="cd-glow"></div>
+        <span class="cd-num" id="cd-sec">00</span>
+        <span class="cd-unit">seg</span>
+      </div>
+    </div>
+  </div>
 </section>
+
 
 <!-- ══════════════════════════════════════
      7. CLOSING
@@ -994,12 +1328,20 @@
       Obrigado por fazer parte desse momento tão especial
     </h2>
     <div class="closing-divider"></div>
-    <p style="color:rgba(255,255,255,.75); font-size:.875rem; line-height:1.7; font-weight:300;">
+    <p style="color:rgba(255,255,255,.75);font-size:.875rem;line-height:1.75;font-weight:300;">
       Cada sorriso seu, cada palavra carinhosa,<br>
       cada abraço — tudo ficará guardado<br>
       no coração de Zaion para sempre.
     </p>
     <p class="closing-sig">Com carinho, Zaion 💙</p>
+
+    <!-- Appears only after user scrolls here -->
+    <div class="final-reveal" id="finalReveal">
+      <p>
+        Obrigado por fazer parte<br>
+        da minha história. 💙
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1008,113 +1350,156 @@
      JAVASCRIPT
 ══════════════════════════════════════ -->
 <script>
-/* ── STARS generator ── */
-function makeStars(containerId, n, small) {
-  const c = document.getElementById(containerId);
+/* ─── STARS ─────────────────────────────────── */
+function makeStars(id, n, cls) {
+  const c = document.getElementById(id);
   if (!c) return;
   for (let i = 0; i < n; i++) {
     const s = document.createElement('div');
-    const sz = small ? Math.random()*3+1 : Math.random()*4+1.5;
-    s.className = small ? 'closing-star' : 'star';
-    s.style.cssText = `
-      width:${sz}px; height:${sz}px;
-      top:${Math.random()*100}%;
-      left:${Math.random()*100}%;
-      --dur:${(Math.random()*3+2).toFixed(1)}s;
-      animation-delay:${(Math.random()*4).toFixed(1)}s;
-    `;
+    const sz = Math.random() * 3 + 1;
+    s.className = cls;
+    s.style.cssText =
+      `width:${sz}px;height:${sz}px;` +
+      `top:${Math.random()*100}%;left:${Math.random()*100}%;` +
+      `--dur:${(Math.random()*3+2).toFixed(1)}s;` +
+      `animation-delay:${(Math.random()*5).toFixed(1)}s;`;
     c.appendChild(s);
   }
 }
-makeStars('heroStars', 30, false);
-makeStars('closingStars', 25, true);
+makeStars('heroStars',   28, 'star');
+makeStars('soulStars',   50, 'soul-star');
+makeStars('closingStars',25, 'closing-star');
 
-/* ── CLOUDS generator ── */
+/* ─── CLOUDS ────────────────────────────────── */
 (function(){
   const c = document.getElementById('heroClouds');
-  const data = [
-    { w:90,  h:28, top:14, delay:0,   spd:28 },
-    { w:130, h:36, top:22, delay:-8,  spd:35 },
-    { w:70,  h:20, top:35, delay:-4,  spd:22 },
-    { w:110, h:32, top:50, delay:-14, spd:42 },
-    { w:80,  h:24, top:62, delay:-2,  spd:30 },
-  ];
-  data.forEach(d => {
+  [
+    {w:90,  h:28, top:14, delay:0,   spd:28},
+    {w:130, h:36, top:22, delay:-8,  spd:35},
+    {w:70,  h:20, top:35, delay:-4,  spd:22},
+    {w:110, h:32, top:50, delay:-14, spd:42},
+    {w:80,  h:24, top:62, delay:-2,  spd:30},
+  ].forEach(d => {
     const el = document.createElement('div');
     el.className = 'cloud';
-    el.style.cssText = `
-      width:${d.w}px; height:${d.h}px;
-      top:${d.top}%;
-      left:-${d.w+20}px;
-      --spd:${d.spd}s;
-      animation-delay:${d.delay}s;
-    `;
-    const bw = d.w*.55, bh = d.h*1.4;
-    el.style.setProperty('--bw', bw+'px');
-    el.style.setProperty('--bh', bh+'px');
-    // pseudo-cloud bumps via box-shadow
-    el.style.boxShadow = `
-      ${d.w*.25}px -${d.h*.4}px 0 ${d.h*.2}px rgba(255,255,255,.82),
-      ${d.w*.55}px -${d.h*.2}px 0 ${d.h*.1}px rgba(255,255,255,.82)
-    `;
+    el.style.cssText =
+      `width:${d.w}px;height:${d.h}px;top:${d.top}%;` +
+      `left:-${d.w+20}px;--spd:${d.spd}s;animation-delay:${d.delay}s;`;
+    el.style.boxShadow =
+      `${d.w*.25}px -${d.h*.4}px 0 ${d.h*.2}px rgba(255,255,255,.82),` +
+      `${d.w*.55}px -${d.h*.2}px 0 ${d.h*.1}px rgba(255,255,255,.82)`;
     c.appendChild(el);
   });
 })();
 
-/* ── SCROLL REVEAL ── */
-const revealEls = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      // stagger siblings in same section
-      const siblings = [...e.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
-      const idx = siblings.indexOf(e.target);
-      setTimeout(() => {
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
-      }, idx * 80);
-    }
+/* ─── SCROLL REVEAL ─────────────────────────── */
+const revealIo = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const siblings = [...e.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+    const idx = siblings.indexOf(e.target);
+    setTimeout(() => {
+      e.target.classList.add('visible');
+      revealIo.unobserve(e.target);
+    }, idx * 80);
   });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => io.observe(el));
+}, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealIo.observe(el));
 
-/* ── TABS ── */
-function switchTab(name) {
+/* ─── FINAL CLOSING REVEAL ───────────────────── */
+const finalEl = document.getElementById('finalReveal');
+if (finalEl) {
+  const finalIo = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        setTimeout(() => finalEl.classList.add('visible'), 900);
+        finalIo.unobserve(finalEl);
+      }
+    });
+  }, { threshold: 0.6 });
+  finalIo.observe(finalEl);
+}
+
+/* ─── COUNTDOWN ──────────────────────────────── */
+const TARGET_DATE = new Date('2026-06-23T00:00:00');
+const prevCD = {};
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function flipNum(el, val, key) {
+  const s = pad(val);
+  if (prevCD[key] !== s) {
+    el.classList.remove('flip');
+    void el.offsetWidth;
+    el.classList.add('flip');
+    el.textContent = s;
+    prevCD[key] = s;
+  }
+}
+
+function tick() {
+  const diff = TARGET_DATE - new Date();
+  const gone = diff <= 0;
+  const days  = gone ? 0 : Math.floor(diff / 86400000);
+  const hours = gone ? 0 : Math.floor((diff % 86400000) / 3600000);
+  const min   = gone ? 0 : Math.floor((diff % 3600000)  / 60000);
+  const sec   = gone ? 0 : Math.floor((diff % 60000)    / 1000);
+
+  // Hero mini
+  const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = pad(v); };
+  setTxt('hcd-days',  days);
+  setTxt('hcd-hours', hours);
+  setTxt('hcd-min',   min);
+  setTxt('hcd-sec',   sec);
+
+  // Big countdown (flip animation)
+  const fl = (id, v, k) => { const el = document.getElementById(id); if (el) flipNum(el, v, k); };
+  fl('cd-days',  days,  'days');
+  fl('cd-hours', hours, 'hours');
+  fl('cd-min',   min,   'min');
+  fl('cd-sec',   sec,   'sec');
+}
+setInterval(tick, 1000);
+tick();
+
+/* ─── TABS ───────────────────────────────────── */
+function switchTab(name, e) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
+  if (e && e.currentTarget) e.currentTarget.classList.add('active');
 }
 
-/* ── POLL ── */
-let votes = [0, 0, 0];
-let voted = false;
-const msgs = [
+/* ─── POLL ───────────────────────────────────── */
+let pollVotes = [0,0,0], pollVoted = false;
+const pollTxt = [
   'Mamãe vai ficar orgulhosa! 👩💙',
   'O papai vai ter um mini-eu! 👨💙',
   'Vai ser uma surpresa maravilhosa! 🎲💙'
 ];
 function vote(idx) {
-  if (voted) return;
-  voted = true;
-  votes[idx]++;
-  const total = votes.reduce((a, b) => a + b, 0);
-  const opts = document.querySelectorAll('.poll-opt');
-  opts.forEach((o, i) => {
-    const pct = Math.round(votes[i] / total * 100);
-    document.getElementById('bar' + i).style.width = pct + '%';
-    document.getElementById('pct' + i).textContent = pct + '%';
-    o.classList.add('selected' === i ? 'selected' : '');
+  if (pollVoted) return;
+  pollVoted = true;
+  pollVotes[idx]++;
+  const total = pollVotes.reduce((a,b)=>a+b,0);
+  document.querySelectorAll('.poll-opt').forEach((o,i)=>{
+    const pct = Math.round(pollVotes[i]/total*100);
+    document.getElementById('bar'+i).style.width = pct+'%';
+    document.getElementById('pct'+i).textContent = pct+'%';
   });
-  opts[idx].classList.add('selected');
+  document.querySelectorAll('.poll-opt')[idx].classList.add('selected');
   document.getElementById('pollOpts').classList.add('poll-voted');
-  document.getElementById('pollMsg').textContent = msgs[idx];
+  document.getElementById('pollMsg').textContent = pollTxt[idx];
 }
 
-/* ── MESSAGES ── */
-const seedMsgs = [];
+/* ─── MESSAGES ───────────────────────────────── */
+const localMsgs = [];
+let msgCountNum = 45; // seeded
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 function renderMsgs(list) {
-  const wrap = document.getElementById('msgList');
+  const wrap  = document.getElementById('msgList');
   const empty = document.getElementById('msgEmpty');
   if (list.length === 0) { empty.style.display = 'block'; return; }
   empty.style.display = 'none';
@@ -1129,50 +1514,94 @@ function renderMsgs(list) {
   wrap.appendChild(frag);
   wrap.appendChild(empty);
 }
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
 function sendMsg() {
   const n = document.getElementById('msgName').value.trim();
   const t = document.getElementById('msgText').value.trim();
   if (!t) { document.getElementById('msgText').focus(); return; }
   const name = n || 'Convidado(a) anônimo(a)';
-  seedMsgs.push({ name, text: t });
-  renderMsgs(seedMsgs);
+  localMsgs.push({ name, text: t });
+  renderMsgs(localMsgs);
   document.getElementById('msgName').value = '';
   document.getElementById('msgText').value = '';
   document.getElementById('msgText').placeholder = 'Mensagem enviada com amor 💙';
+  msgCountNum++;
+  const el = document.getElementById('msgCountDisplay');
+  if (el) el.textContent = msgCountNum;
   setTimeout(() => { document.getElementById('msgText').placeholder = 'Deixe uma mensagem carinhosa para Zaion… 💙'; }, 3000);
 }
-renderMsgs(seedMsgs);
-/* ── COUNTDOWN COMPLETO ── */
-function format(num) {
-  return String(num).padStart(2, '0');
+renderMsgs(localMsgs);
+
+/* ─── TIME CAPSULE ───────────────────────────── */
+function sendCapsule() {
+  const name = document.getElementById('capName').value.trim() || 'Anônimo';
+  const msg  = document.getElementById('capMsg').value.trim();
+  const year = document.getElementById('capYear').value;
+  if (!msg) { document.getElementById('capMsg').focus(); return; }
+
+  const entry = { name, message: msg, open_year: Number(year), created_at: new Date().toISOString() };
+
+  /* ─── localStorage fallback (works offline / no backend) ─── */
+  try {
+    const existing = JSON.parse(localStorage.getItem('zaion_capsule') || '[]');
+    existing.push(entry);
+    localStorage.setItem('zaion_capsule', JSON.stringify(existing));
+  } catch(e) { /* silent */ }
+
+  /* ─── Supabase integration — uncomment & fill YOUR_URL / YOUR_KEY ───
+  fetch('https://YOUR_PROJECT.supabase.co/rest/v1/future_messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': 'YOUR_ANON_KEY',
+      'Authorization': 'Bearer YOUR_ANON_KEY',
+      'Prefer': 'return=minimal'
+    },em 
+    body: JSON.stringify({ name, message: msg, open_year: Number(year) })
+  }).catch(console.error);
+  ─────────────────────────────────────────────────────────────────── */
+
+  document.getElementById('capName').value = '';
+  document.getElementById('capMsg').value  = '';
+  const conf = document.getElementById('capConfirm');
+  conf.style.display = 'block';
+  setTimeout(() => { conf.style.display = 'none'; }, 6000);
 }
 
-function updateCountdown() {
-  const target = new Date("2026-06-23T00:00:00");
-  const now = new Date();
-  const diff = target - now;
+/* ─── VISITOR COUNTER ───────────────────────── */
+let visitorCount = 127;
 
-  const el = document.getElementById("countdown");
-
-  if (diff <= 0) {
-    el.innerText = "00:00:00:00 💙";
-    return;
-  }
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-
-  el.innerText =
-    `${format(days)}:${format(hours)}:${format(minutes)}:${format(seconds)}`;
+function animCount(el, target, dur) {
+  const step = Math.max(1, Math.ceil(target / (dur / 40)));
+  let cur = 0;
+  const iv = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur;
+    if (cur >= target) clearInterval(iv);
+  }, 40);
 }
 
-setInterval(updateCountdown, 1000);
-updateCountdown();
+(function initVisitors(){
+  try {
+    let stored = JSON.parse(localStorage.getItem('zaion_v2') || 'null');
+    if (!stored) { stored = { visits: visitorCount + 1 }; }
+    else { stored.visits = (stored.visits || visitorCount) + 1; }
+    localStorage.setItem('zaion_v2', JSON.stringify(stored));
+    visitorCount = stored.visits;
+  } catch(e) { visitorCount = 128; }
+
+  const vIo = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const vcEl  = document.getElementById('visitorCount');
+      const mcEl  = document.getElementById('msgCountDisplay');
+      if (vcEl) animCount(vcEl, visitorCount, 1200);
+      if (mcEl) animCount(mcEl, msgCountNum,  900);
+      vIo.unobserve(en.target);
+    });
+  }, { threshold: 0.4 });
+  const sec = document.getElementById('visitors');
+  if (sec) vIo.observe(sec);
+})();
 </script>
 </body>
 </html>
